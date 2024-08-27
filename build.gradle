@@ -1,15 +1,36 @@
 plugins {
     id 'java'
+    id 'war'
 }
 
 group = 'com.ainetdinov'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
 }
 
+ext {
+    lombokVersion = '1.18.34'
+    jakartaVersion = '6.0.0'
+    jacksonVersion = '2.17.1'
+    hibernateVersion = '6.6.0.Final'
+    postgresqlVersion = '42.7.4'
+}
+
 dependencies {
+    implementation "jakarta.servlet:jakarta.servlet-api:${jakartaVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation "org.hibernate:hibernate-core:${hibernateVersion}"
+    implementation "org.postgresql:postgresql:${postgresqlVersion}"
+
+
+
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
