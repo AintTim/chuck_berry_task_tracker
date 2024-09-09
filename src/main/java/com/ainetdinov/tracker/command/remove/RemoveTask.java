@@ -1,5 +1,6 @@
-package com.ainetdinov.tracker.command;
+package com.ainetdinov.tracker.command.remove;
 
+import com.ainetdinov.tracker.command.Command;
 import com.ainetdinov.tracker.model.entity.Task;
 import com.ainetdinov.tracker.repository.AbstractRepository;
 import org.hibernate.Session;

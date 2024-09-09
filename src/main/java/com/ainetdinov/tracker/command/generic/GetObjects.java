@@ -1,27 +1,27 @@
-package com.ainetdinov.tracker.command;
+package com.ainetdinov.tracker.command.generic;
 
+import com.ainetdinov.tracker.command.Command;
 import com.ainetdinov.tracker.repository.AbstractRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class CreateCommand<T> implements Command<T> {
+public class GetObjects<T> implements Command<List<T>> {
     private final AbstractRepository<T, ? extends Serializable> repository;
-    private final T object;
 
-    public CreateCommand(AbstractRepository<T, ? extends Serializable> repository, T object) {
+    public GetObjects(AbstractRepository<T, ? extends Serializable> repository) {
         this.repository = repository;
-        this.object = object;
     }
 
     @Override
-    public T execute() {
+    public List<T> execute() {
         try (Session session = repository.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
-            repository.save(session, object);
+            var objects = repository.findAll(session);
             transaction.commit();
-            return object;
+            return objects;
         }
     }
 }

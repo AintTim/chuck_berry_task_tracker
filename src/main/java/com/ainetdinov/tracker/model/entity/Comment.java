@@ -18,7 +18,7 @@ public class Comment {
     private String comment;
 
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id")
     private Task task;
 }

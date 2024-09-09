@@ -30,17 +30,17 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Setter(AccessLevel.PACKAGE)
-    @ManyToOne
+    @Setter
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "assignee_id")
     private User assignee;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     @ToString.Exclude
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "task_to_label",
             joinColumns = {

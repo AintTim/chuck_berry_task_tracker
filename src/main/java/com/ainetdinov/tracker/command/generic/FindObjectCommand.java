@@ -1,5 +1,6 @@
-package com.ainetdinov.tracker.command;
+package com.ainetdinov.tracker.command.generic;
 
+import com.ainetdinov.tracker.command.Command;
 import com.ainetdinov.tracker.repository.AbstractRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

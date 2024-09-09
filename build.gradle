@@ -16,6 +16,9 @@ ext {
     jacksonVersion = '2.17.1'
     hibernateVersion = '6.6.0.Final'
     postgresqlVersion = '42.7.4'
+    mapstructVersion = '1.6.0'
+    log4jVersion = '2.23.1'
+    servletJstl = '3.0.1'
 }
 
 dependencies {
@@ -26,11 +29,22 @@ dependencies {
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation "org.hibernate:hibernate-core:${hibernateVersion}"
     implementation "org.postgresql:postgresql:${postgresqlVersion}"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:${servletJstl}"
+    implementation "org.glassfish.web:jakarta.servlet.jsp.jstl:${servletJstl}"
+
+
+    compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:10.0.0'
 
 
 
-    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    testImplementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
