@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "labels")
-public class Label {
+public class Label implements Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

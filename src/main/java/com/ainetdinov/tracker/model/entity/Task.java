@@ -3,6 +3,7 @@ package com.ainetdinov.tracker.model.entity;
 import com.ainetdinov.tracker.constant.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Jacksonized
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task implements Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,6 +54,13 @@ public class Task {
             }
     )
     private List<Label> labels = new ArrayList<>();
+
+    public Task(String title, String description, Status status, User assignee) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.assignee = assignee;
+    }
 
     public void addComment(Comment comment) {
         comments.add(comment);

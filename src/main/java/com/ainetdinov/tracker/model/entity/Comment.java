@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
