@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Value
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDto implements Serializable {
+public class UserDto implements Serializable, EntityDto {
     Long id;
     String username;
 }

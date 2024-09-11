@@ -2,6 +2,7 @@ package com.ainetdinov.tracker.model.dto;
 
 import com.ainetdinov.tracker.constant.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 @Value
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TaskDto implements Serializable {
+public class TaskDto implements Serializable, EntityDto {
     Long id;
     String title;
     String description;

@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Value
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommentDto implements Serializable {
+public class CommentDto implements Serializable, EntityDto {
     Long id;
     String comment;
 }
