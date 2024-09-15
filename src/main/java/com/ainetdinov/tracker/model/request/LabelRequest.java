@@ -5,11 +5,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class LabelRequest implements RequestEntity {
+    private Long id;
     private String label;
     private String color;
+    private List<TaskRequest> tasks;
+
+    public LabelRequest(String label) {
+        this.label = label;
+    }
+
+    public LabelRequest(Long id) {
+        this.id = id;
+    }
 }

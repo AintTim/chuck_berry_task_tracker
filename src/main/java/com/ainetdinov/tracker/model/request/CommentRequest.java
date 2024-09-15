@@ -10,5 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class CommentRequest implements RequestEntity{
+    private Long id;
+
     private String comment;
+
+    public CommentRequest(String comment) {
+        this.comment = comment;
+    }
 }
