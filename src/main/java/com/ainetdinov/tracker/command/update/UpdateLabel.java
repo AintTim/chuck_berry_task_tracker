@@ -1,28 +1,30 @@
 package com.ainetdinov.tracker.command.update;
 
 import com.ainetdinov.tracker.command.Command;
-import com.ainetdinov.tracker.model.entity.Label;
-import com.ainetdinov.tracker.repository.AbstractRepository;
+import com.ainetdinov.tracker.model.dto.LabelDto;
+import com.ainetdinov.tracker.model.mapper.LabelMapper;
+import com.ainetdinov.tracker.model.request.LabelRequest;
+import com.ainetdinov.tracker.repository.LabelRepository;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class UpdateLabel implements Command<Label> {
-    private final AbstractRepository<Label, Long> repository;
-    private final Label object;
+@RequiredArgsConstructor
+public class UpdateLabel implements Command<LabelDto> {
+    private final LabelRepository repository;
+    private final LabelMapper mapper;
+    private final LabelRequest request;
 
-    public UpdateLabel(AbstractRepository<Label, Long> repository, Label object) {
-        this.repository = repository;
-        this.object = object;
-    }
 
     @Override
-    public Label execute() {
-        Label updatedLabel;
+    public LabelDto execute() {
         try (Session session = repository.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
-            updatedLabel = repository.update(session, object);
+            var label = repository.findByName(session, request.getLabel()).orElseThrow();
+            label.setColor(request.getColor());
+            var updated = repository.update(session, label);
             transaction.commit();
-            return updatedLabel;
+            return mapper.toDto(updated);
         }
     }
 }
