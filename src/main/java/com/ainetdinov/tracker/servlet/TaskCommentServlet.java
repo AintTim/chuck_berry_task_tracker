@@ -1,8 +1,9 @@
 package com.ainetdinov.tracker.servlet;
 
-import com.ainetdinov.tracker.constant.Status;
+import com.ainetdinov.tracker.model.request.TaskRequest;
 import com.ainetdinov.tracker.service.HttpService;
 import com.ainetdinov.tracker.service.TaskService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -15,10 +16,11 @@ import java.io.IOException;
 
 import static com.ainetdinov.tracker.constant.WebConstant.*;
 
-@WebServlet(API + TASKS + SLASH + ASTERISK)
-public class TaskListServlet extends HttpServlet {
+@WebServlet(API + COMMENTS + SLASH + ASTERISK)
+public class TaskCommentServlet extends HttpServlet {
     private TaskService taskService;
     private HttpService httpService;
+
 
     @Override
     public void init(ServletConfig config) {
@@ -29,16 +31,19 @@ public class TaskListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getPathInfo() == null) {
-            req.setAttribute(OPEN, taskService.getTasksOfStatus(Status.OPEN));
-            req.setAttribute(IN_PROGRESS, taskService.getTasksOfStatus(Status.IN_PROGRESS));
-            req.setAttribute(DONE, taskService.getTasksOfStatus(Status.DONE));
-            req.setAttribute(STATUSES, Status.values());
-            req.getRequestDispatcher(TASKS_JSP).forward(req, resp);
-        } else {
-            Status status = Status.getStatus(httpService.extractPath(req));
-            var tasks = taskService.getTasksOfStatus(status);
-            httpService.sendJsonObject(resp, tasks);
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        var object = httpService.getObjectFromRequestPath(mapper, req, TaskRequest.class);
+        var task = taskService.getEntityById(object);
+        req.setAttribute(TASK, task);
+        req.getRequestDispatcher(COMMENTS_JSP).forward(req, resp);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+        ObjectMapper mapper = new ObjectMapper();
+        var task = httpService.getObjectFromRequest(mapper, req, TaskRequest.class);
+        var updated = taskService.updateTaskComments(task);
+        req.setAttribute(TASK, updated);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

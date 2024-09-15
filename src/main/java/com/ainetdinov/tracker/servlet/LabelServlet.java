@@ -1,8 +1,9 @@
 package com.ainetdinov.tracker.servlet;
 
-import com.ainetdinov.tracker.model.entity.Label;
+import com.ainetdinov.tracker.model.request.LabelRequest;
 import com.ainetdinov.tracker.service.HttpService;
 import com.ainetdinov.tracker.service.LabelService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -12,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Objects;
 
 import static com.ainetdinov.tracker.constant.WebConstant.*;
 
@@ -29,31 +30,42 @@ public class LabelServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        httpService.prepareResponse(resp);
-
-        PrintWriter out = resp.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>Labels: </h1>");
-        if (httpService.containsPath(req)) {
-            out.println("<h2>" + labelService.getLabel(httpService.extractId(req)) + "</h2>");
-        } else {
-            out.println("<h2>" + labelService.getLabels() + "</h2>");
-        }
-        out.println("</body></html>");
-
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute(LABELS, labelService.getEntities());
+        req.getRequestDispatcher(LABELS_JSP).forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        httpService.prepareResponse(resp);
-        Label newLabel = new Label();
-        newLabel.setLabel("Custom");
-        labelService.createEntity(newLabel);
-        PrintWriter out = resp.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>"+newLabel+" created </h1>");
-        out.println("</body></html>");
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        ObjectMapper mapper = new ObjectMapper();
+        var label = httpService.getObjectFromRequestPath(mapper, req, LabelRequest.class);
+        if (labelService.validateLabelDeletionAvailability(label)) {
+            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            httpService.sendJsonObject(resp, labelService.getMessage(ERROR_LABEL_VALIDATION));
+            return;
+        }
+        labelService.deleteEntity(label);
+        resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+        ObjectMapper mapper = new ObjectMapper();
+        var label = httpService.getObjectFromRequest(mapper, req, LabelRequest.class);
+        labelService.updateEntity(label);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        ObjectMapper mapper = new ObjectMapper();
+        var label = httpService.getObjectFromRequest(mapper, req, LabelRequest.class);
+        if (Objects.nonNull(labelService.getLabelByName(label))) {
+            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            httpService.sendJsonObject(resp, labelService.getMessage(ERROR_LABEL_NAME_EXISTS));
+            return;
+        }
+        labelService.createEntity(label);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }
