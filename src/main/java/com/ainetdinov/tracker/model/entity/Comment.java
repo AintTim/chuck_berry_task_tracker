@@ -21,4 +21,8 @@ public class Comment implements Source {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id")
     private Task task;
+
+    public Comment(String comment) {
+        this.comment = comment;
+    }
 }

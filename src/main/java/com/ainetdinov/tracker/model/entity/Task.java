@@ -3,7 +3,6 @@ package com.ainetdinov.tracker.model.entity;
 import com.ainetdinov.tracker.constant.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.jackson.Jacksonized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,6 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Jacksonized
 @Entity
 @Table(name = "tasks")
 public class Task implements Source {
@@ -77,14 +74,19 @@ public class Task implements Source {
         comments.clear();
     }
 
+    public void setComments(List<Comment> comments) {
+        removeComments();
+        comments.forEach(this::addComment);
+    }
+
+    public void setLabels(List<Label> labels) {
+        removeLabels();
+        labels.forEach(this::addLabel);
+    }
+
     public void addLabel(Label label) {
         labels.add(label);
         label.getTasks().add(this);
-    }
-
-    public void removeLabel(Label label) {
-        labels.remove(label);
-        label.getTasks().remove(this);
     }
 
     public void removeLabels() {
