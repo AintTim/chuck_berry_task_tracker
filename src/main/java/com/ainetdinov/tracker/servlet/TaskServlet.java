@@ -107,10 +107,7 @@ public class TaskServlet extends HttpServlet {
         TaskRequest task = TaskRequest.builder()
                 .title(title)
                 .description(description)
-                .status(Status.OPEN)
                 .assignee(UserRequest.builder().username(user).build())
-                .labels(new ArrayList<>())
-                .comments(new ArrayList<>())
                 .build();
 
         if (validateField(req, taskService::validateTitlePresence, task, ERROR_TASK_TITLE_EXISTS)) {

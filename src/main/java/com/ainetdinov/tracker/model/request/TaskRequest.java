@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder(toBuilder = true)
@@ -16,10 +17,13 @@ public class TaskRequest implements RequestEntity {
     private Long id;
     private String title;
     private String description;
-    private Status status;
+    @Builder.Default
+    private Status status = Status.OPEN;
     private UserRequest assignee;
-    private List<LabelRequest> labels;
-    private List<CommentRequest> comments;
+    @Builder.Default
+    private List<LabelRequest> labels = new ArrayList<>();
+    @Builder.Default
+    private List<CommentRequest> comments = new ArrayList<>();
 
     public TaskRequest(Long id) {
         this.id = id;
