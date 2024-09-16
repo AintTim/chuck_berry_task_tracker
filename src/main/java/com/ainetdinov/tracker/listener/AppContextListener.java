@@ -20,6 +20,8 @@ import jakarta.servlet.annotation.WebListener;
 
 import java.util.ResourceBundle;
 
+import static com.ainetdinov.tracker.constant.WebConstant.*;
+
 @WebListener
 public class AppContextListener implements ServletContextListener {
 
@@ -27,9 +29,12 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         ObjectMapper mapper = new ObjectMapper();
-        HibernateConfiguration config = new HibernateConfiguration();
         HttpService httpService = new HttpService();
         ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
+        HibernateConfiguration config = new HibernateConfiguration(
+                resourceBundle.getString(DB_URL),
+                resourceBundle.getString(DB_USERNAME),
+                resourceBundle.getString(DB_PASSWORD));
 
         LabelRepository labelRepository = new LabelRepository(config.getSessionFactory());
         TaskRepository taskRepository = new TaskRepository(config.getSessionFactory());
@@ -39,11 +44,11 @@ public class AppContextListener implements ServletContextListener {
         UserService userService = new UserService(userRepository, UserMapper.INSTANCE, resourceBundle);
         TaskService taskService = new TaskService(taskRepository, TaskMapper.INSTANCE, resourceBundle);
 
-        context.setAttribute(WebConstant.MAPPER, mapper);
-        context.setAttribute(WebConstant.HTTP_SERVICE, httpService);
-        context.setAttribute(WebConstant.LABEL_SERVICE, labelService);
-        context.setAttribute(WebConstant.TASK_SERVICE, taskService);
-        context.setAttribute(WebConstant.USER_SERVICE, userService);
+        context.setAttribute(MAPPER, mapper);
+        context.setAttribute(HTTP_SERVICE, httpService);
+        context.setAttribute(LABEL_SERVICE, labelService);
+        context.setAttribute(TASK_SERVICE, taskService);
+        context.setAttribute(USER_SERVICE, userService);
 
         ServletContextListener.super.contextInitialized(sce);
     }

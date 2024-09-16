@@ -37,4 +37,9 @@ public class CommentRepository extends AbstractRepository<Comment, Long> {
     public Comment update(Session session, Comment comment) {
         return session.merge(comment);
     }
+
+    @Override
+    public int deleteAll(Session session) {
+        return session.createQuery("delete from Comment").executeUpdate();
+    }
 }

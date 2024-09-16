@@ -46,4 +46,9 @@ public class UserRepository extends AbstractRepository<User, Long> {
     public User update(Session session, User user) {
         return session.merge(user);
     }
+
+    @Override
+    public int deleteAll(Session session) {
+        return session.createQuery("delete from User").executeUpdate();
+    }
 }

@@ -1,5 +1,6 @@
 package com.ainetdinov.tracker.service;
 
+import com.ainetdinov.tracker.command.get.GetUserByUsername;
 import com.ainetdinov.tracker.command.validate.ValidateUserPresence;
 import com.ainetdinov.tracker.command.validate.ValidateUsernamePresence;
 import com.ainetdinov.tracker.model.dto.UserDto;
@@ -17,6 +18,11 @@ public class UserService extends EntityService<User, UserDto, UserRequest> {
 
     public UserService(UserRepository userRepository, UserMapper mapper, ResourceBundle messages) {
         super(userRepository, mapper, messages);
+    }
+
+    public UserDto getUserByUsername(UserRequest userRequest) {
+        log.debug("Command: GetUserByUsername\tget user with username {}", userRequest.getUsername());
+        return executeCommand(new GetUserByUsername((UserRepository) repository, (UserMapper) mapper, userRequest));
     }
 
     public boolean validateUserPresence(UserRequest userRequest) {

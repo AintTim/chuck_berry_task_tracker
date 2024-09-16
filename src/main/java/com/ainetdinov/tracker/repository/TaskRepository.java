@@ -42,7 +42,7 @@ public class TaskRepository extends AbstractRepository<Task, Long> {
 
     @Override
     public List<Task> findAll(Session session) {
-        return session.createQuery("from Task", Task.class).list();
+        return session.createQuery("from Task t left join fetch t.assignee left join fetch t.labels left join t.comments", Task.class).list();
     }
 
     @Override
@@ -58,5 +58,10 @@ public class TaskRepository extends AbstractRepository<Task, Long> {
     @Override
     public Task update(Session session, Task task) {
         return session.merge(task);
+    }
+
+    @Override
+    public int deleteAll(Session session) {
+        return session.createQuery("delete from Task").executeUpdate();
     }
 }

@@ -2,6 +2,7 @@ package com.ainetdinov.tracker.service;
 
 import com.ainetdinov.tracker.command.CommandExecutor;
 import com.ainetdinov.tracker.command.generic.CreateCommand;
+import com.ainetdinov.tracker.command.generic.DeleteObjects;
 import com.ainetdinov.tracker.command.generic.FindObjectCommand;
 import com.ainetdinov.tracker.command.generic.GetObjects;
 import com.ainetdinov.tracker.model.dto.EntityDto;
@@ -32,6 +33,11 @@ public abstract class EntityService<E extends Source, D extends EntityDto, R ext
 
     public void createEntity(R requestEntity) {
         var command = new CreateCommand<>(repository, mapper.toEntity(requestEntity));
+        executeCommand(command);
+    }
+
+    public void deleteEntities() {
+        var command = new DeleteObjects<>(repository);
         executeCommand(command);
     }
 

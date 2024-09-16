@@ -43,4 +43,9 @@ public class LabelRepository extends AbstractRepository<Label, Long> {
     public Label update(Session session, Label label) {
         return session.merge(label);
     }
+
+    @Override
+    public int deleteAll(Session session) {
+        return session.createQuery("delete from Label").executeUpdate();
+    }
 }

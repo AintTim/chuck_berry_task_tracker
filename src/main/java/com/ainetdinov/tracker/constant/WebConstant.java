@@ -6,6 +6,11 @@ import lombok.experimental.UtilityClass;
 public class WebConstant {
     public static final String MAPPER = "mapper";
 
+    // credentials
+    public static final String DB_URL = "database.url";
+    public static final String DB_USERNAME = "database.username";
+    public static final String DB_PASSWORD = "database.password";
+
     // services
     public static final String LABEL_SERVICE = "labelService";
     public static final String TASK_SERVICE = "taskService";

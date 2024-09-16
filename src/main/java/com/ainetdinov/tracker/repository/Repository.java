@@ -17,4 +17,6 @@ public interface Repository<T, ID extends Serializable> {
     void delete(Session session, T t);
 
     T update(Session session, T t);
+
+    int deleteAll(Session session);
 }

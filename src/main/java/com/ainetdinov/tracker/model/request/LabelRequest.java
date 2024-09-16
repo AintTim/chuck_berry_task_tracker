@@ -14,7 +14,8 @@ import java.util.List;
 public class LabelRequest implements RequestEntity {
     private Long id;
     private String label;
-    private String color;
+    @Builder.Default
+    private String color = "#808080";
     private List<TaskRequest> tasks;
 
     public LabelRequest(String label) {
