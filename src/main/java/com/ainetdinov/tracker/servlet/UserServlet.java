@@ -26,11 +26,10 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var username = req.getParameter(USER_NAME);
-        var password = req.getParameter(PASSWORD);
-        var user = UserRequest.builder().username(username).password(password).build();
+        var user = getUserRequest(req);
         if (!userService.validateUserPresence(user)) {
             req.setAttribute(ERROR, userService.getMessage(ERROR_USER_VALIDATION));
+            req.setAttribute(USER, user.getUsername());
             req.getRequestDispatcher(INDEX_JSP).forward(req, resp);
             return;
         }
@@ -39,9 +38,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var username = req.getParameter(USER_NAME);
-        var password = req.getParameter(PASSWORD);
-        UserRequest user = UserRequest.builder().username(username).password(password).build();
+        var user = getUserRequest(req);
         if (!userService.validateUsernameAvailability(user)) {
             req.setAttribute(ERROR, userService.getMessage(ERROR_USERNAME_VALIDATION));
             req.getRequestDispatcher(INDEX_JSP).forward(req, resp);
@@ -54,5 +51,11 @@ public class UserServlet extends HttpServlet {
         }
         userService.createEntity(user);
         resp.sendRedirect(req.getContextPath() + API + TASKS);
+    }
+
+    private UserRequest getUserRequest(HttpServletRequest request) {
+        var username = request.getParameter(USER_NAME);
+        var password = request.getParameter(PASSWORD);
+        return UserRequest.builder().username(username).password(password).build();
     }
 }

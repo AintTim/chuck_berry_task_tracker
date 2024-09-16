@@ -21,12 +21,14 @@ import static com.ainetdinov.tracker.constant.WebConstant.*;
 public class LabelServlet extends HttpServlet {
     private LabelService labelService;
     private HttpService httpService;
+    private ObjectMapper mapper;
 
     @Override
     public void init(ServletConfig config) {
         ServletContext context = config.getServletContext();
         labelService = (LabelService) context.getAttribute(LABEL_SERVICE);
         httpService = (HttpService) context.getAttribute(HTTP_SERVICE);
+        mapper = (ObjectMapper) context.getAttribute(MAPPER);
     }
 
     @Override
@@ -37,11 +39,9 @@ public class LabelServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        ObjectMapper mapper = new ObjectMapper();
         var label = httpService.getObjectFromRequestPath(mapper, req, LabelRequest.class);
         if (labelService.validateLabelDeletionAvailability(label)) {
-            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            httpService.sendJsonObject(resp, labelService.getMessage(ERROR_LABEL_VALIDATION));
+            httpService.sendJsonObject(mapper, resp, labelService.getMessage(ERROR_LABEL_VALIDATION), HttpServletResponse.SC_NOT_ACCEPTABLE);
             return;
         }
         labelService.deleteEntity(label);
@@ -50,7 +50,6 @@ public class LabelServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        ObjectMapper mapper = new ObjectMapper();
         var label = httpService.getObjectFromRequest(mapper, req, LabelRequest.class);
         labelService.updateEntity(label);
         resp.setStatus(HttpServletResponse.SC_OK);
@@ -58,11 +57,9 @@ public class LabelServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        ObjectMapper mapper = new ObjectMapper();
         var label = httpService.getObjectFromRequest(mapper, req, LabelRequest.class);
         if (Objects.nonNull(labelService.getLabelByName(label))) {
-            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            httpService.sendJsonObject(resp, labelService.getMessage(ERROR_LABEL_NAME_EXISTS));
+            httpService.sendJsonObject(mapper, resp, labelService.getMessage(ERROR_LABEL_NAME_EXISTS), HttpServletResponse.SC_NOT_ACCEPTABLE);
             return;
         }
         labelService.createEntity(label);

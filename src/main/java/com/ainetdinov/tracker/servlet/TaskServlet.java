@@ -25,11 +25,11 @@ import static com.ainetdinov.tracker.constant.WebConstant.*;
 
 @WebServlet(API + TASK + SLASH + ASTERISK)
 public class TaskServlet extends HttpServlet {
-    private final String COMMA = ", ";
     private TaskService taskService;
     private LabelService labelService;
     private UserService userService;
     private HttpService httpService;
+    private ObjectMapper mapper;
 
     @Override
     public void init(ServletConfig config) {
@@ -38,11 +38,11 @@ public class TaskServlet extends HttpServlet {
         labelService = (LabelService) context.getAttribute(LABEL_SERVICE);
         userService = (UserService) context.getAttribute(USER_SERVICE);
         httpService = (HttpService) context.getAttribute(HTTP_SERVICE);
+        mapper = (ObjectMapper) context.getAttribute(MAPPER);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
         if (req.getPathInfo() == null) {
             req.setAttribute(LABELS, labelService.getEntities());
             req.setAttribute(USERS, userService.getEntities());
@@ -64,7 +64,6 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        ObjectMapper mapper = new ObjectMapper();
         var object = httpService.getObjectFromRequestPath(mapper, req, TaskRequest.class);
         taskService.deleteEntity(object);
         resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -72,25 +71,22 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        ObjectMapper mapper = new ObjectMapper();
         if (req.getPathInfo().contains(STATUS)) {
             var task = httpService.getObjectFromRequestPath(mapper, req, TaskRequest.class);
             var status = Status.getStatus(httpService.extractLastPathPart(req));
             task = task.toBuilder().status(status).build();
+
             taskService.updateTaskStatus(task);
+            resp.setStatus(HttpServletResponse.SC_OK);
         } else {
             var task = httpService.getObjectFromRequest(mapper, req, TaskRequest.class);
-
             if (validateField(req, taskService::validateDescriptionLength, task, ERROR_DESC_LENGTH)) {
-                // вынести установку статуса в метод sendJsonObject
-                resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                httpService.sendJsonObject(resp, taskService.getMessage(ERROR_DESC_LENGTH));
+                httpService.sendJsonObject(mapper, resp, taskService.getMessage(ERROR_DESC_LENGTH), HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return;
             }
 
             if (validateField(req, taskService::validateLabelsNumber, task, ERROR_LABELS_COUNT)) {
-                resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                httpService.sendJsonObject(resp, taskService.getMessage(ERROR_LABELS_COUNT));
+                httpService.sendJsonObject(mapper, resp, taskService.getMessage(ERROR_LABELS_COUNT), HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return;
             }
 
@@ -104,7 +100,8 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var title = req.getParameter(TITLE);
         var description = req.getParameter(DESCRIPTION);
-        var labels = req.getParameter(SELECTED_LABELS).split(COMMA);
+        var delimiter = ", ";
+        var labels = req.getParameter(SELECTED_LABELS).split(delimiter);
         var user = req.getParameter(USER_NAME);
 
         TaskRequest task = TaskRequest.builder()
@@ -113,6 +110,7 @@ public class TaskServlet extends HttpServlet {
                 .status(Status.OPEN)
                 .assignee(UserRequest.builder().username(user).build())
                 .labels(new ArrayList<>())
+                .comments(new ArrayList<>())
                 .build();
 
         if (validateField(req, taskService::validateTitlePresence, task, ERROR_TASK_TITLE_EXISTS)) {
