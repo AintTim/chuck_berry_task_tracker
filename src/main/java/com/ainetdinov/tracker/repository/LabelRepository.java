@@ -18,6 +18,12 @@ public class LabelRepository extends AbstractRepository<Label, Long> {
         return Optional.ofNullable(session.get(Label.class, id));
     }
 
+    public Optional<Label> findByName(Session session, String name) {
+        var query = session.createQuery("from Label l where label = :name", Label.class);
+        query.setParameter("name", name);
+        return Optional.ofNullable(query.getSingleResultOrNull());
+    }
+
     @Override
     public List<Label> findAll(Session session) {
         return session.createQuery("from Label", Label.class).list();
