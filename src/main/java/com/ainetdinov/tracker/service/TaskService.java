@@ -51,9 +51,9 @@ public class TaskService extends EntityService<Task, TaskDto, TaskRequest> {
         return executeCommand(new UpdateTaskComments((TaskRepository) repository, (TaskMapper) mapper, request));
     }
 
-    public TaskDto updateTaskStatus(TaskRequest taskRequest) {
+    public void updateTaskStatus(TaskRequest taskRequest) {
         log.debug("Command: UpdateTaskStatus\tset task '{}' status to {}", taskRequest.getId(), taskRequest.getStatus());
-        return executeCommand(new UpdateTaskStatus((TaskRepository) repository, (TaskMapper) mapper, taskRequest));
+        executeCommand(new UpdateTaskStatus((TaskRepository) repository, (TaskMapper) mapper, taskRequest));
     }
 
     @Override

@@ -11,10 +11,8 @@ import com.ainetdinov.tracker.model.request.RequestEntity;
 import com.ainetdinov.tracker.repository.AbstractRepository;
 import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 public abstract class EntityService<E extends Source, D extends EntityDto, R extends RequestEntity> implements CommandExecutor {
@@ -41,15 +39,11 @@ public abstract class EntityService<E extends Source, D extends EntityDto, R ext
         return messages.getString(key);
     }
 
-    public <Entity> boolean validateEntity(Entity entity, Predicate<Entity> validation) {
-        return validation.test(entity);
-    }
-
     public D updateEntity(R requestEntity) {
         throw new IllegalStateException("No implementation provided");
     }
 
     public void deleteEntity(R requestEntity) {
         throw new IllegalStateException("No implementation provided");
-    };
+    }
 }
