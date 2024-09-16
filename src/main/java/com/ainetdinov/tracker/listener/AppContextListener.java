@@ -12,6 +12,7 @@ import com.ainetdinov.tracker.service.HttpService;
 import com.ainetdinov.tracker.service.LabelService;
 import com.ainetdinov.tracker.service.TaskService;
 import com.ainetdinov.tracker.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -25,6 +26,7 @@ public class AppContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
+        ObjectMapper mapper = new ObjectMapper();
         HibernateConfiguration config = new HibernateConfiguration();
         HttpService httpService = new HttpService();
         ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
@@ -37,6 +39,7 @@ public class AppContextListener implements ServletContextListener {
         UserService userService = new UserService(userRepository, UserMapper.INSTANCE, resourceBundle);
         TaskService taskService = new TaskService(taskRepository, TaskMapper.INSTANCE, resourceBundle);
 
+        context.setAttribute(WebConstant.MAPPER, mapper);
         context.setAttribute(WebConstant.HTTP_SERVICE, httpService);
         context.setAttribute(WebConstant.LABEL_SERVICE, labelService);
         context.setAttribute(WebConstant.TASK_SERVICE, taskService);

@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class WebConstant {
-    public static final String HIBER_CONFIG = "hibernateConfig";
+    public static final String MAPPER = "mapper";
 
     // services
     public static final String LABEL_SERVICE = "labelService";
