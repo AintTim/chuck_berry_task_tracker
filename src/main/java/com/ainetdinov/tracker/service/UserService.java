@@ -1,48 +1,37 @@
 package com.ainetdinov.tracker.service;
 
-import com.ainetdinov.tracker.command.generic.UpdateCommand;
-import com.ainetdinov.tracker.command.remove.RemoveUser;
+import com.ainetdinov.tracker.command.validate.ValidateUserPresence;
+import com.ainetdinov.tracker.command.validate.ValidateUsernamePresence;
 import com.ainetdinov.tracker.model.dto.UserDto;
 import com.ainetdinov.tracker.model.entity.User;
 import com.ainetdinov.tracker.model.mapper.UserMapper;
+import com.ainetdinov.tracker.model.request.UserRequest;
 import com.ainetdinov.tracker.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class UserService extends EntityService<User> {
-    private final UserMapper userMapper;
+@Log4j2
+public class UserService extends EntityService<User, UserDto, UserRequest> {
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        super(userRepository);
-        this.userMapper = userMapper;
+    public UserService(UserRepository userRepository, UserMapper mapper, ResourceBundle messages) {
+        super(userRepository, mapper, messages);
     }
 
-    public List<UserDto> getUsers() {
-        var users = getEntities();
-        return toDtoList(users);
+    public boolean validateUserPresence(UserRequest userRequest) {
+        log.debug("Command: ValidateUserPresence\tcheck if user with entered credentials exists {}:{}", userRequest.getUsername(), userRequest.getPassword());
+        return executeCommand(new ValidateUserPresence((UserRepository) repository, userRequest));
     }
 
-    public UserDto getUser(Long id) {
-        return userMapper.toDto(getEntityById(id));
+    public boolean validatePasswordLength(UserRequest userRequest) {
+        log.debug("Validate password presence:\n{}", userRequest.getPassword());
+        var password = userRequest.getPassword();
+        return Objects.nonNull(password) && !password.trim().isEmpty();
     }
 
-    @Override
-    public Serializable updateEntity(User user) {
-        return userMapper.toDto(executeCommand(new UpdateCommand<>(repository, user)));
-    }
-
-    @Override
-    public void deleteEntity(Long id) {
-        executeCommand(new RemoveUser(repository, id));
-    }
-
-    private List<UserDto> toDtoList(List<User> users) {
-        List<UserDto> dtoList = new ArrayList<>();
-        for (var user : users) {
-            dtoList.add(userMapper.toDto(user));
-        }
-        return dtoList;
+    public boolean validateUsernameAvailability(UserRequest userRequest) {
+        log.debug("Command: ValidateUsernamePresence\tcheck if entered username {} is available", userRequest.getUsername());
+        return !executeCommand(new ValidateUsernamePresence((UserRepository) repository, userRequest));
     }
 }
