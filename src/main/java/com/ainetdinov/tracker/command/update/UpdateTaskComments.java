@@ -23,7 +23,7 @@ public class UpdateTaskComments implements Command<TaskDto> {
 
     @Override
     public TaskDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var task = repository.findById(session, request.getId()).orElseThrow();
             updateTaskComments(task);

@@ -2,7 +2,6 @@ package com.ainetdinov.tracker.model.dto;
 
 import com.ainetdinov.tracker.constant.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;

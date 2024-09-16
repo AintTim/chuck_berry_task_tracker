@@ -19,7 +19,7 @@ public class GetTasksWithStatus implements Command<List<TaskDto>> {
 
     @Override
     public List<TaskDto> execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var tasks = repository.findByStatus(session, status);
             transaction.commit();

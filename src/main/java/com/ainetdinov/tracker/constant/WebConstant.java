@@ -47,12 +47,12 @@ public class WebConstant {
     // error messages
     public static final String ERROR_TASK_TITLE_EXISTS = "error.task.title.exists";
     public static final String ERROR_LABEL_NAME_EXISTS = "error.label.name.exists";
-    public static final String ERROR_LABELS_COUNT ="error.labels.count";
-    public static final String ERROR_DESC_LENGTH ="error.desc.length";
-    public static final String ERROR_USER_VALIDATION ="error.user.validation";
-    public static final String ERROR_PASSWORD_VALIDATION ="error.password.validation";
-    public static final String ERROR_USERNAME_VALIDATION ="error.username.validation";
-    public static final String ERROR_LABEL_VALIDATION ="error.label.validation";
+    public static final String ERROR_LABELS_COUNT = "error.labels.count";
+    public static final String ERROR_DESC_LENGTH = "error.desc.length";
+    public static final String ERROR_USER_VALIDATION = "error.user.validation";
+    public static final String ERROR_PASSWORD_VALIDATION = "error.password.validation";
+    public static final String ERROR_USERNAME_VALIDATION = "error.username.validation";
+    public static final String ERROR_LABEL_VALIDATION = "error.label.validation";
 
     // constraints
     public static final int LABELS_MAX = 3;

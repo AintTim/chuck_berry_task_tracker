@@ -14,7 +14,7 @@ public class GetTaskByTitle implements Command<Task> {
 
     @Override
     public Task execute() {
-        try (Session session = taskRepository.getSessionFactory().openSession()){
+        try (Session session = taskRepository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var task = taskRepository.findByTitle(session, title);
             transaction.commit();

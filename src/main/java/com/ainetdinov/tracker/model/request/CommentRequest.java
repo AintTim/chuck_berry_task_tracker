@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CommentRequest implements RequestEntity{
+public class CommentRequest implements RequestEntity {
     private Long id;
 
     private String comment;

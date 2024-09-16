@@ -14,7 +14,7 @@ public class UserRequest implements RequestEntity {
     private String username;
     private String password;
 
-    public UserRequest(String  username) {
+    public UserRequest(String username) {
         this.username = username;
     }
 }

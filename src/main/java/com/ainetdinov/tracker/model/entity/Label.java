@@ -18,7 +18,7 @@ public class Label implements Source {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "label_name", unique=true, nullable=false)
+    @Column(name = "label_name", unique = true, nullable = false)
     private String label;
 
     @Column(name = "label_color")

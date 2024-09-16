@@ -18,7 +18,7 @@ public class ValidateDeletionAvailability implements Command<Boolean> {
     @Override
     public Boolean execute() {
         boolean isInvalid = true;
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var label = repository.findById(session, request.getId());
             if (findTaskWithSingleLabel(session, label.orElseThrow()).getResultList().isEmpty()) {

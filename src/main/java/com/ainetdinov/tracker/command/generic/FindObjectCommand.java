@@ -22,7 +22,7 @@ public class FindObjectCommand<E extends Source, D extends EntityDto, R extends 
 
     @Override
     public D execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var object = repository.findById(session, requestedObject.getId());
             transaction.commit();

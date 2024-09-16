@@ -19,7 +19,7 @@ public class GetObjects<E extends Source, D extends EntityDto, R extends Request
 
     @Override
     public List<D> execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var objects = repository.findAll(session)
                     .stream().map(mapper::toDto)

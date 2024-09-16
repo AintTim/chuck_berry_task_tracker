@@ -23,7 +23,7 @@ public class UpdateTask implements Command<TaskDto> {
 
     @Override
     public TaskDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var user = findUserByName(session, request.getAssignee().getUsername()).uniqueResult();
             var labels = findLabelsByName(session, request.getLabels()).list();

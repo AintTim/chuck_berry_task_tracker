@@ -28,7 +28,7 @@ public class CreateTask implements Command<TaskDto> {
 
     @Override
     public TaskDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var user = findUserByName(session, taskRequest.getAssignee().getUsername()).uniqueResult();
             var labels = findLabelsByName(session, labelNameList).list();

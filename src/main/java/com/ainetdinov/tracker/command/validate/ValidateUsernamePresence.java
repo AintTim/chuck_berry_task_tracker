@@ -15,7 +15,7 @@ public class ValidateUsernamePresence implements Command<Boolean> {
     @Override
     public Boolean execute() {
         boolean isPresent;
-        try (Session session = userRepository.getSessionFactory().openSession()){
+        try (Session session = userRepository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var user = userRepository.findByUsername(session, userRequest);
             isPresent = user.isPresent();

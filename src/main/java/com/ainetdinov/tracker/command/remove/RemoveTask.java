@@ -15,7 +15,7 @@ public class RemoveTask implements Command<Task> {
 
     @Override
     public Task execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var task = session.get(Task.class, object.getId());
 

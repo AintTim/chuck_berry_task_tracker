@@ -18,7 +18,7 @@ public class RemoveLabel implements Command<LabelDto> {
 
     @Override
     public LabelDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var label = session.get(Label.class, object.getId());
 

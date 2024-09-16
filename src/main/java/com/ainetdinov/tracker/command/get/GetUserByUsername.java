@@ -17,7 +17,7 @@ public class GetUserByUsername implements Command<UserDto> {
 
     @Override
     public UserDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var object = repository.findByUsername(session, user);
             transaction.commit();

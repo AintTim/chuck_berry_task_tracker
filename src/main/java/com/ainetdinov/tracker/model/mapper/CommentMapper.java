@@ -7,7 +7,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface CommentMapper extends EntityMapper<Comment, CommentDto, CommentRequest>{
+public interface CommentMapper extends EntityMapper<Comment, CommentDto, CommentRequest> {
 
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 

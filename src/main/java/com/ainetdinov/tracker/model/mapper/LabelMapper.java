@@ -3,7 +3,6 @@ package com.ainetdinov.tracker.model.mapper;
 import com.ainetdinov.tracker.model.dto.LabelDto;
 import com.ainetdinov.tracker.model.entity.Label;
 import com.ainetdinov.tracker.model.request.LabelRequest;
-import com.ainetdinov.tracker.repository.LabelRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

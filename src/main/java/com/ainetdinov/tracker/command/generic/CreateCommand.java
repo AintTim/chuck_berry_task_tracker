@@ -18,7 +18,7 @@ public class CreateCommand<T> implements Command<T> {
 
     @Override
     public T execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             repository.save(session, object);
             transaction.commit();

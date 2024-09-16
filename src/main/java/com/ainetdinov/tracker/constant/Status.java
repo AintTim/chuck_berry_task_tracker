@@ -18,7 +18,7 @@ public enum Status {
 
     public static Status getStatus(String text) {
         return Arrays.stream(Status.values())
-                .filter(s-> s.text.equals(text))
+                .filter(s -> s.text.equals(text))
                 .findFirst()
                 .orElse(null);
     }

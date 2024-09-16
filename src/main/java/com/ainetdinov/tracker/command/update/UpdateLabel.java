@@ -18,7 +18,7 @@ public class UpdateLabel implements Command<LabelDto> {
 
     @Override
     public LabelDto execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var label = repository.findByName(session, request.getLabel()).orElseThrow();
             label.setColor(request.getColor());

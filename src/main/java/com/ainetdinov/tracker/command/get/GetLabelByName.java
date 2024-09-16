@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.NoSuchElementException;
-
 @RequiredArgsConstructor
 public class GetLabelByName implements Command<Label> {
     private final LabelRepository repository;
@@ -16,7 +14,7 @@ public class GetLabelByName implements Command<Label> {
 
     @Override
     public Label execute() {
-        try (Session session = repository.getSessionFactory().openSession()){
+        try (Session session = repository.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             var object = repository.findByName(session, name);
             transaction.commit();
