@@ -49,6 +49,12 @@ public class BaseTest {
         return request;
     }
 
+    protected LabelRequest createLabel(LabelService service, String name) {
+        var request = LabelRequest.builder().label(name).build();
+        service.createEntity(request);
+        return request;
+    }
+
     protected UserRequest createDefaultUser(UserService service, String username) {
         var request = UserRequest.builder().username(username).password("qwertyu").build();
         service.createEntity(request);
