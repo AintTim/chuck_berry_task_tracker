@@ -17,12 +17,12 @@
         }
 
         .form-container {
-            max-width: 900px; /* Максимальная ширина контейнера */
-            width: 100%; /* Ширина контейнера на 100% родителя */
-            padding: 20px; /* Паддинг внутри контейнера */
-            background-color: #fff; /* Цвет фона контейнера */
-            border-radius: 12px; /* Закругленные углы контейнера */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Тень */
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .error-message {
