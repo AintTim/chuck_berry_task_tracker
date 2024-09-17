@@ -1,6 +1,5 @@
 package com.ainetdinov.tracker.base;
 
-import com.ainetdinov.tracker.configuration.HibernateConfiguration;
 import com.ainetdinov.tracker.constant.Status;
 import com.ainetdinov.tracker.model.request.CommentRequest;
 import com.ainetdinov.tracker.model.request.LabelRequest;
@@ -61,10 +60,10 @@ public class BaseTest {
         return request;
     }
 
-    protected UserRequest createUser(UserService service, String username, Long id) {
+    protected UserRequest createUser(UserService service, String username) {
         var request = UserRequest.builder().username(username).password("qwertyu").build();
         service.createEntity(request);
-        return request.toBuilder().id(id).build();
+        return request;
     }
 
     protected CommentRequest createComment(String comment) {

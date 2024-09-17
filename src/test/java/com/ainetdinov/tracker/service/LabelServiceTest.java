@@ -27,7 +27,6 @@ class LabelServiceTest extends BaseTest {
     UserRepository userRepository;
     TaskRepository taskRepository;
     LabelRepository labelRepository;
-    TaskMapper mapper;
 
     @BeforeEach
     void setUp() {
@@ -41,7 +40,6 @@ class LabelServiceTest extends BaseTest {
         taskService = new TaskService(taskRepository, TaskMapper.INSTANCE, resourceBundle);
         labelService = new LabelService(labelRepository, LabelMapper.INSTANCE, resourceBundle);
         userService = new UserService(userRepository, UserMapper.INSTANCE, resourceBundle);
-        mapper = TaskMapper.INSTANCE;
     }
 
     @AfterEach
