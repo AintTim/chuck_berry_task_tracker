@@ -1,7 +1,6 @@
 package com.ainetdinov.tracker.listener;
 
 import com.ainetdinov.tracker.configuration.HibernateConfiguration;
-import com.ainetdinov.tracker.constant.WebConstant;
 import com.ainetdinov.tracker.model.mapper.LabelMapper;
 import com.ainetdinov.tracker.model.mapper.TaskMapper;
 import com.ainetdinov.tracker.model.mapper.UserMapper;
