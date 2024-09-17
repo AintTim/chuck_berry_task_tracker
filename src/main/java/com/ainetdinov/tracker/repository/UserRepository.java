@@ -29,7 +29,7 @@ public class UserRepository extends AbstractRepository<User, Long> {
 
     @Override
     public List<User> findAll(Session session) {
-        return session.createQuery("from User", User.class).list();
+        return session.createQuery("from User u left join fetch u.tasks", User.class).list();
     }
 
     @Override

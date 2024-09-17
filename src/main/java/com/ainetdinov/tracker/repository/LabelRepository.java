@@ -26,7 +26,7 @@ public class LabelRepository extends AbstractRepository<Label, Long> {
 
     @Override
     public List<Label> findAll(Session session) {
-        return session.createQuery("from Label", Label.class).list();
+        return session.createQuery("from Label l left join fetch l.tasks", Label.class).list();
     }
 
     @Override

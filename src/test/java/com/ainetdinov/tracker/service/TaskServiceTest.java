@@ -3,6 +3,7 @@ package com.ainetdinov.tracker.service;
 import com.ainetdinov.tracker.base.BaseTest;
 import com.ainetdinov.tracker.configuration.HibernateConfiguration;
 import com.ainetdinov.tracker.constant.Status;
+import com.ainetdinov.tracker.model.dto.CommentDto;
 import com.ainetdinov.tracker.model.dto.TaskDto;
 import com.ainetdinov.tracker.model.mapper.LabelMapper;
 import com.ainetdinov.tracker.model.mapper.TaskMapper;
@@ -116,7 +117,6 @@ class TaskServiceTest extends BaseTest {
         createTask(taskService, user1, label, "Task 2", Status.IN_PROGRESS);
         createDefaultTask(taskService, user2, label, "Task 3");
 
-
         var userTasks = taskService.getUserTasks(user1, Status.OPEN);
         assertEquals(1, userTasks.size());
         assertThat(userTasks.getFirst().getStatus(), equalTo(Status.OPEN));
@@ -148,5 +148,28 @@ class TaskServiceTest extends BaseTest {
 
         assertThat(taskService.validateTitlePresence(updated), equalTo(true));
         assertThat(taskService.validateTitlePresence(task), equalTo(false));
+    }
+
+    @Test
+    void should_update_task_comments() {
+        var user = createDefaultUser(userService, "anton");
+        var label = createDefaultLabel(labelService);
+        var task = createDefaultTask(taskService, user, label, "Task 1");
+        var response = taskService.getEntities().getFirst();
+        var comment1 = createComment("First comment");
+        var comment2 = createComment("Second comment");
+        task = task
+                .toBuilder()
+                .id(response.getId())
+                .comments(List.of(comment1, comment2))
+                .build();
+
+        var updatedComments = taskService.updateTaskComments(task)
+                .getComments()
+                .stream()
+                .map(CommentDto::getComment)
+                .toList();
+
+        assertThat(updatedComments, contains(comment1.getComment(), comment2.getComment()));
     }
 }

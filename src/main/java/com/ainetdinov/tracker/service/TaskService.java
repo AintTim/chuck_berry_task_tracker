@@ -5,6 +5,7 @@ import com.ainetdinov.tracker.command.get.GetTaskByTitle;
 import com.ainetdinov.tracker.command.get.GetTasksWithStatus;
 import com.ainetdinov.tracker.command.get.GetUserTasks;
 import com.ainetdinov.tracker.command.remove.RemoveTask;
+import com.ainetdinov.tracker.command.remove.RemoveTasks;
 import com.ainetdinov.tracker.command.update.UpdateTask;
 import com.ainetdinov.tracker.command.update.UpdateTaskComments;
 import com.ainetdinov.tracker.command.update.UpdateTaskStatus;
@@ -60,6 +61,12 @@ public class TaskService extends EntityService<Task, TaskDto, TaskRequest> {
     public TaskDto updateEntity(TaskRequest taskRequest) {
         log.debug("Command: UpdateTask\tupdate task {}", taskRequest.getId());
         return executeCommand(new UpdateTask((TaskRepository) repository, (TaskMapper) mapper, taskRequest));
+    }
+
+    @Override
+    public void deleteEntities() {
+        log.debug("Command: RemoveTasks\tdelete all tasks");
+        executeCommand(new RemoveTasks((TaskRepository) repository));
     }
 
     @Override

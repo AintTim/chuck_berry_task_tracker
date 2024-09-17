@@ -2,6 +2,7 @@ package com.ainetdinov.tracker.base;
 
 import com.ainetdinov.tracker.configuration.HibernateConfiguration;
 import com.ainetdinov.tracker.constant.Status;
+import com.ainetdinov.tracker.model.request.CommentRequest;
 import com.ainetdinov.tracker.model.request.LabelRequest;
 import com.ainetdinov.tracker.model.request.TaskRequest;
 import com.ainetdinov.tracker.model.request.UserRequest;
@@ -58,6 +59,10 @@ public class BaseTest {
         var request = UserRequest.builder().username(username).password("qwertyu").build();
         service.createEntity(request);
         return request.toBuilder().id(id).build();
+    }
+
+    protected CommentRequest createComment(String comment) {
+        return CommentRequest.builder().comment(comment).build();
     }
 
     protected TaskRequest createDefaultTask(TaskService taskService, UserRequest user, LabelRequest label, String title) {
