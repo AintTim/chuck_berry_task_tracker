@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="Comments-1"
+               author="Timur Ainetdinov">
+        <createTable tableName="comments">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_comments"/>
+            </column>
+            <column name="comment"
+                    type="VARCHAR(255)"/>
+            <column name="task_id"
+                    type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="Labels-1"
+               author="Timur Ainetdinov">
+        <createTable tableName="labels">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_labels"/>
+            </column>
+            <column name="label_name"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="label_color"
+                    type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="TTL-1"
+               author="Timur Ainetdinov">
+        <createTable tableName="task_to_label">
+            <column name="label_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="Tasks-1"
+               author="Timur Ainetdinov">
+        <createTable tableName="tasks">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_tasks"/>
+            </column>
+            <column name="title"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description"
+                    type="VARCHAR(255)"/>
+            <column name="status"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="assignee_id"
+                    type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="Users-1"
+               author="Timur Ainetdinov">
+        <createTable tableName="users">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_users"/>
+            </column>
+            <column name="username"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="Labels-UK-1"
+               author="Timur Ainetdinov">
+        <addUniqueConstraint columnNames="label_name"
+                             constraintName="uc_labels_label_name"
+                             tableName="labels"/>
+    </changeSet>
+    <changeSet id="Users-UK-1"
+               author="Timur Ainetdinov">
+        <addUniqueConstraint columnNames="username"
+                             constraintName="uc_users_username"
+                             tableName="users"/>
+    </changeSet>
+    <changeSet id="Comments-FK-1"
+               author="Timur Ainetdinov">
+        <addForeignKeyConstraint baseColumnNames="task_id"
+                                 baseTableName="comments"
+                                 constraintName="FK_COMMENTS_ON_TASK"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tasks"/>
+    </changeSet>
+    <changeSet id="Tasks-FK-1"
+               author="Timur Ainetdinov">
+        <addForeignKeyConstraint baseColumnNames="assignee_id"
+                                 baseTableName="tasks"
+                                 constraintName="FK_TASKS_ON_ASSIGNEE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="TTL-FK-1"
+               author="Timur Ainetdinov">
+        <addForeignKeyConstraint baseColumnNames="label_id"
+                                 baseTableName="task_to_label"
+                                 constraintName="fk_tastolab_on_label"
+                                 referencedColumnNames="id"
+                                 referencedTableName="labels"/>
+    </changeSet>
+    <changeSet id="TTL-FK-2"
+               author="Timur Ainetdinov">
+        <addForeignKeyConstraint baseColumnNames="task_id"
+                                 baseTableName="task_to_label"
+                                 constraintName="fk_tastolab_on_task"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tasks"/>
+    </changeSet>
+
+</databaseChangeLog>
