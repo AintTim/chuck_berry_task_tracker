@@ -6,19 +6,15 @@ import com.ainetdinov.tracker.model.entity.Source;
 import com.ainetdinov.tracker.model.mapper.EntityMapper;
 import com.ainetdinov.tracker.model.request.RequestEntity;
 import com.ainetdinov.tracker.repository.AbstractRepository;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@RequiredArgsConstructor
 public class FindObjectCommand<E extends Source, D extends EntityDto, R extends RequestEntity> implements Command<D> {
     private final AbstractRepository<E, Long> repository;
     private final EntityMapper<E, D, R> mapper;
     private final R requestedObject;
-
-    public FindObjectCommand(AbstractRepository<E, Long> repository, EntityMapper<E, D, R> mapper, R requestedObject) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.requestedObject = requestedObject;
-    }
 
     @Override
     public D execute() {

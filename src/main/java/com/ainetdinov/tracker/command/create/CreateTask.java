@@ -7,24 +7,19 @@ import com.ainetdinov.tracker.model.entity.User;
 import com.ainetdinov.tracker.model.mapper.TaskMapper;
 import com.ainetdinov.tracker.model.request.TaskRequest;
 import com.ainetdinov.tracker.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class CreateTask implements Command<TaskDto> {
     private final TaskRepository repository;
     private final TaskMapper mapper;
     private final TaskRequest taskRequest;
     private final List<String> labelNameList;
-
-    public CreateTask(TaskRepository repository, TaskMapper mapper, TaskRequest taskRequest, List<String> labelNameList) {
-        this.repository = repository;
-        this.taskRequest = taskRequest;
-        this.mapper = mapper;
-        this.labelNameList = labelNameList;
-    }
 
     @Override
     public TaskDto execute() {
