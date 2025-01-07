@@ -1,16 +1,7 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.liquibase:liquibase-core:4.29.2"
-    }
-}
-
 plugins {
     id 'java'
     id 'war'
-    id 'org.liquibase.gradle' version '3.0.1'
+    id 'org.liquibase.gradle' version '2.2.0'
 }
 
 group = 'com.ainetdinov'
@@ -71,8 +62,6 @@ dependencies {
     liquibaseRuntime sourceSets.main.output
 }
 
-apply plugin: "org.liquibase.gradle"
-
 liquibase {
     activities {
         main {
@@ -84,8 +73,6 @@ liquibase {
         runList = "main"
     }
 }
-
-tasks.build.dependsOn('liquibaseUpdate')
 
 test {
     useJUnitPlatform()
