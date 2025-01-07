@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class BaseTest {
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
-    public static ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
+    public static ResourceBundle resourceBundle = ResourceBundle.getBundle("project");
     public static Connection connection;
     public static Liquibase liquibase;
 
