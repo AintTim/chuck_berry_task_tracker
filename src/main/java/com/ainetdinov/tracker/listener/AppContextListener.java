@@ -29,7 +29,8 @@ public class AppContextListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
         ObjectMapper mapper = new ObjectMapper();
         HttpService httpService = new HttpService();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("project");
+
         HibernateConfiguration config = new HibernateConfiguration(
                 resourceBundle.getString(DB_URL),
                 resourceBundle.getString(DB_USERNAME),

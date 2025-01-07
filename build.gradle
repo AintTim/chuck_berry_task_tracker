@@ -1,7 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.liquibase:liquibase-core:4.29.2"
+    }
+}
+
 plugins {
     id 'java'
     id 'war'
-    id 'org.liquibase.gradle' version '2.2.0'
+    id 'org.liquibase.gradle' version '3.0.1'
 }
 
 group = 'com.ainetdinov'
@@ -22,6 +31,10 @@ ext {
     servletJstl = '3.0.1'
     liquibaseVersion = '4.29.2'
     picocliVersion = '4.7.5'
+    database = new Properties().with {
+        load(file("src/main/resources/project.properties").newReader())
+        it
+    }
 }
 
 dependencies {
@@ -54,6 +67,8 @@ dependencies {
     liquibaseRuntime "info.picocli:picocli:${picocliVersion}"
     liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
     liquibaseRuntime "org.postgresql:postgresql:${postgresqlVersion}"
+    liquibaseRuntime "javax.xml.bind:jaxb-api:2.3.1"
+    liquibaseRuntime sourceSets.main.output
 }
 
 apply plugin: "org.liquibase.gradle"
@@ -62,12 +77,15 @@ liquibase {
     activities {
         main {
             changeLogFile "src/main/resources/db/changelog/changelog.xml"
-            url "jdbc:postgresql://localhost:5431/task_tracker"
-            username "root"
-            password "root"
+            url database.getProperty("database.url")
+            username database.getProperty("database.username")
+            password database.getProperty("database.password")
         }
+        runList = "main"
     }
 }
+
+tasks.build.dependsOn('liquibaseUpdate')
 
 test {
     useJUnitPlatform()
