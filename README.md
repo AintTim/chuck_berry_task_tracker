@@ -1,7 +1,31 @@
-Проект "Task Tracker" - приложение для управления задачами. Использует базу данных PostgreSql, развернутую в Docker
+# Task Tracker project
 
+## Описание
+Проект "Task Tracker" - это приложение для управления задачами, которое позволяет создавать/изменять и удалять созданные задачи, добавлять к ним комментарии/лейблы и назначать ответственного. 
+Использует базу данных PostgreSql, развернутую в Docker
 
-- User flow:
+## Технологии
+- PostgreSQL
+- DockerCompose
+- Hibernate
+- Liquibase
+- JUnit, testcontainers
+
+## Установка и запуск
+1. Клонировать репозиторий
+```
+git clone https://github.com/AintTim/chuck_berry_task_tracker.git
+```
+2. Запустить базу данных в Docker
+```
+docker-compose up -d
+```
+3. Запустить приложение
+```
+?
+```
+
+## User flow:
 1. Авторизация
 2. Создание лейбла
 3. Создание задачи
