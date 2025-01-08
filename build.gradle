@@ -7,6 +7,12 @@ plugins {
 group = 'com.ainetdinov'
 version = '1.0'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
 repositories {
     mavenCentral()
 }
