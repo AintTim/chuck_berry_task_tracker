@@ -5,24 +5,41 @@
 Использует базу данных PostgreSql, развернутую в Docker
 
 ## Технологии
-- PostgreSQL
+- PostgresSQL
 - DockerCompose
 - Hibernate
 - Liquibase
 - JUnit, testcontainers
+- Tomcat
 
 ## Установка и запуск
 1. Клонировать репозиторий
 ```
 git clone https://github.com/AintTim/chuck_berry_task_tracker.git
+cd chuck_berry_task_tracker
 ```
 2. Запустить базу данных в Docker
 ```
 docker-compose up -d
 ```
-3. Запустить приложение
+3. Создать таблицы в поднятой базе данных и собрать проект
 ```
-?
+./gradlew update
+./gradlew build
+```
+4. Настроить и запустить **Tomcat**
+- Скопировать созданный WAR-файл в директорию **webapps** и запустить Tomcat сервер
+```
+./bin/startup.sh 
+```
+Windows
+```
+.\bin\startup.bat
+```
+- Создать конфигурацию Tomcat Server Local в IntelliJ Idea
+5. Откройте браузер
+```
+http://localhost:8081/Gradle___com_ainetdinov___chuck_berry_task_tracker_1_0_war/
 ```
 
 ## User flow:
