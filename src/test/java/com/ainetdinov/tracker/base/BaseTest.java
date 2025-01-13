@@ -16,6 +16,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +24,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class BaseTest {
-    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+    @Container
+    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
     public static ResourceBundle resourceBundle = ResourceBundle.getBundle("project");
     public static Connection connection;
     public static Liquibase liquibase;
