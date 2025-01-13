@@ -18,26 +18,11 @@
 git clone https://github.com/AintTim/chuck_berry_task_tracker.git
 cd chuck_berry_task_tracker
 ```
-2. Запустить базу данных в Docker
+2. Запустить проект
 ```
-docker-compose up -d
+docker-compose up -build
 ```
-3. Создать таблицы в поднятой базе данных и собрать проект
-```
-./gradlew update
-./gradlew build
-```
-4. Настроить и запустить **Tomcat**
-- Скопировать созданный WAR-файл в директорию **webapps** и запустить Tomcat сервер
-```
-./bin/startup.sh 
-```
-Windows
-```
-.\bin\startup.bat
-```
-- Создать конфигурацию Tomcat Server Local в IntelliJ Idea (Опциональный вариант)
-5. Откройте браузер
+3. Откройте браузер
 ```
 http://localhost:8081/Gradle___com_ainetdinov___chuck_berry_task_tracker_1_0_war/
 ```
