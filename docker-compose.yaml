@@ -3,6 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
+    container_name: postgres
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=root
@@ -12,5 +13,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  tomcat:
+    build: .
+    container_name: tomcat
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
