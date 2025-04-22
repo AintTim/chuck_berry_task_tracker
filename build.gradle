@@ -29,10 +29,6 @@ ext {
     liquibaseVersion = '4.29.2'
     picocliVersion = '4.7.5'
     testContainersVersion = '1.20.4'
-    database = new Properties().with {
-        load(file("src/main/resources/project.properties").newReader())
-        it
-    }
 }
 
 dependencies {
@@ -68,18 +64,7 @@ dependencies {
     liquibaseRuntime "org.postgresql:postgresql:${postgresqlVersion}"
     liquibaseRuntime "javax.xml.bind:jaxb-api:2.3.1"
     liquibaseRuntime sourceSets.main.output
-}
-
-liquibase {
-    activities {
-        main {
-            changeLogFile "src/main/resources/db/changelog/changelog.xml"
-            url database.getProperty("database.url")
-            username database.getProperty("database.username")
-            password database.getProperty("database.password")
-        }
-        runList = "main"
-    }
+    liquibaseRuntime files('src/main/resources')
 }
 
 test {
