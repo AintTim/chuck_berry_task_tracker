@@ -20,11 +20,11 @@ cd chuck_berry_task_tracker
 ```
 2. Запустить проект
 ```
-docker-compose up -build
+docker-compose up --build
 ```
 3. Откройте браузер
 ```
-http://localhost:8081/Gradle___com_ainetdinov___chuck_berry_task_tracker_1_0_war/
+http://localhost:8080/task_tracker
 ```
 
 ## User flow:
