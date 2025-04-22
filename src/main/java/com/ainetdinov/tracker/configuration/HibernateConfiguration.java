@@ -16,11 +16,12 @@ public class HibernateConfiguration {
 
     public SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration()
-                .setProperty("hibernate.connection,driver_class", "org.postgresql.Driver")
+                .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
+                .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .setProperty("hibernate.connection.url", url)
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
-                .setProperty("hibernate.hbm2ddl.auto", "validate")
+                .setProperty("hibernate.hbm2ddl.auto", "none")
                 .setProperty("hibernate.show_sql", "true");
 
         configuration
